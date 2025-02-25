@@ -34,6 +34,9 @@ from geometry_msgs.msg import Quaternion
 from ackermann_msgs.msg import AckermannDriveStamped
 from tf2_ros import TransformBroadcaster
 
+from ament_index_python import get_package_prefix, get_package_share_directory
+import os
+
 import gym
 import numpy as np
 from transforms3d import euler
@@ -55,7 +58,7 @@ class GymBridge(Node):
         self.declare_parameter('scan_distance_to_base_link')
         self.declare_parameter('scan_fov')
         self.declare_parameter('scan_beams')
-        self.declare_parameter('map_path')
+        self.declare_parameter('map_name')
         self.declare_parameter('map_img_ext')
         self.declare_parameter('num_agent')
         self.declare_parameter('sx')
@@ -72,10 +75,16 @@ class GymBridge(Node):
             raise ValueError('num_agents should be either 1 or 2.')
         elif type(num_agents) != int:
             raise ValueError('num_agents should be an int.')
+        
+        map_path = os.path.join(
+            get_package_share_directory('f1tenth_gym_ros'), 
+            'maps', 
+            self.get_parameter('map_name').value
+        )
 
         # env backend
         self.env = gym.make('f110_gym:f110-v0',
-                            map=self.get_parameter('map_path').value,
+                            map=map_path,
                             map_ext=self.get_parameter('map_img_ext').value,
                             num_agents=num_agents)
 
