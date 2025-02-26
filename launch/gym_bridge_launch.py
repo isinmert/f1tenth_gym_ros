@@ -23,6 +23,8 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import Command
+from launch.actions import IncludeLaunchDescription
+from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 import os
 import yaml
@@ -43,6 +45,13 @@ def generate_launch_description():
         executable='gym_bridge',
         name='bridge',
         parameters=[config]
+    )
+
+    foxglove_launch_path = os.path.join(
+        get_package_share_directory('foxglove_bridge'), 'launch', 
+        'foxglove_bridge_launch.xml')
+    foxglove_launch = IncludeLaunchDescription(
+        XMLLaunchDescriptionSource(foxglove_launch_path)
     )
 
     map_path = os.path.join(
@@ -94,6 +103,7 @@ def generate_launch_description():
     )
 
     # finalize
+    ld.add_action(foxglove_launch)
     ld.add_action(bridge_node)
     ld.add_action(nav_lifecycle_node)
     ld.add_action(map_server_node)
