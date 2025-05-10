@@ -54,6 +54,12 @@ def generate_launch_description():
         XMLLaunchDescriptionSource(foxglove_launch_path)
     )
 
+    visualizer_node = Node(
+        package='f1tenth_gym_ros', 
+        executable='visualizer', 
+        name='visualizer'
+    )
+
     map_path = os.path.join(
         get_package_share_directory('f1tenth_gym_ros'), 
         'maps', 
@@ -108,6 +114,7 @@ def generate_launch_description():
     ld.add_action(nav_lifecycle_node)
     ld.add_action(map_server_node)
     ld.add_action(ego_robot_publisher)
+    ld.add_action(visualizer_node)
     if has_opp:
         ld.add_action(opp_robot_publisher)
 
