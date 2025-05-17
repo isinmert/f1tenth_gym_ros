@@ -42,7 +42,7 @@ bridge:
     scan_beams: 1080
 
     # map parameters
-    map_name: 'Spielberg_map'
+    map_name: 'random_map'
     map_img_ext: '.png'
 
     # opponent parameters

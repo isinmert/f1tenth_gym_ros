@@ -1,0 +1,6 @@
+image: random_map.png
+resolution: 0.12500
+origin: [-156.35032767305134,-87.73629868755624, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196
