@@ -12,6 +12,11 @@ import yaml
 
 from typing import List, Tuple
 
+RACECAR_WIDTH = 0.2032
+RACECAR_HEIGHT = 0.1
+RACECAR_WHEELBASE = 0.3302
+RACECAR_GROUND_OFFSET = 0.04
+
 class Visualizer(Node):
     def __init__(self):
         super().__init__("visualizer")
@@ -110,15 +115,16 @@ class Visualizer(Node):
 
         # position
         marker_msg.pose.position = self.last_odomerty_msg.pose.pose.position
+        marker_msg.pose.position.z += RACECAR_GROUND_OFFSET
 
         # orientation
         marker_msg.pose.orientation \
             = self.last_odomerty_msg.pose.pose.orientation
 
         # size 
-        marker_msg.scale.x = 0.3302
-        marker_msg.scale.y = 0.2032
-        marker_msg.scale.z = 0.1
+        marker_msg.scale.x = RACECAR_WHEELBASE
+        marker_msg.scale.y = RACECAR_WIDTH
+        marker_msg.scale.z = RACECAR_HEIGHT
 
         # color
         marker_msg.color.a = 0.5
